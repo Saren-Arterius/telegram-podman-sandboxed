@@ -25,7 +25,7 @@ There are two versions. Select the version that is applicable to you.
 |---|---|---|
 | Type | Container | Virtual machine (VM) |
 | Linux kernel | Shared with your computer | Its own kernel. Safer if bad code breaks the kernel. |
-| NVIDIA GPU | Yes (optional) | No. Telegram draws the screen with the CPU. |
+| GPU | NVIDIA, AMD, or Intel (optional) | No. Telegram draws the screen with the CPU. |
 | Desktop | Wayland or X11 | Wayland only |
 | Files that Telegram saves | Belong to a different user | Belong to your user |
 | Tools | Podman. These tools are mature. | smolvm. This tool is new and has some bugs. |
@@ -36,7 +36,7 @@ There are two versions. Select the version that is applicable to you.
 You must have these items:
 
 1. Linux with a Wayland or X11 desktop.
-2. The `podman` and `passt` packages.
+2. The `podman` and `passt` packages, and the `podman.socket` user service (`systemctl --user enable --now podman.socket`).
 3. A subuid range for your user.
 
 To find your subuid range, type this command:
@@ -102,7 +102,7 @@ Do these steps in the project folder.
    podman compose up -d
    ```
 
-## Use the NVIDIA GPU (optional)
+## Use the GPU (optional)
 
 Without a GPU, Telegram draws the screen with the CPU. This is satisfactory for most persons.
 
@@ -115,7 +115,8 @@ To use an NVIDIA GPU, do these steps:
 WARNING: The GPU driver gives Telegram one more path to attack your computer.
 Do not use the GPU if you do not need it.
 
-AMD and Intel GPUs do not operate with this project.
+For an AMD or Intel GPU, add `:compose.amd.yaml` in place of `:compose.nvidia.yaml`, and type `podman compose build`.
+`/dev/dri/renderD128` must have mode `0666` (`ls -l /dev/dri`). This is the default on Arch Linux.
 
 ## Use sound (optional)
 

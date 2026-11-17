@@ -1,0 +1,5 @@
+# AMD or Intel GPU via Mesa. Add to COMPOSE_FILE. Only the render node: no display control (card*).
+# The node must be mode 0666 on the host (Arch default); Telegram's uid has no host groups.
+services:
+  telegram:
+    devices: [/dev/dri/renderD128]
